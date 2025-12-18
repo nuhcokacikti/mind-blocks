@@ -112,7 +112,11 @@ const ComboSystem = {
             SoundEffects.success();
         }
 
-        setTimeout(() => comboDiv.classList.remove('combo-animate'), 500);
+        // Çok hızlı kaldır - 600ms sonra
+        setTimeout(() => {
+            comboDiv.style.display = 'none';
+            comboDiv.classList.remove('combo-animate');
+        }, 600);
     },
 
     createComboDisplay() {
