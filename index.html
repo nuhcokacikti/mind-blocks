@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Blocks - Hafıza ve Zeka Oyunu</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles_addon.css">
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+    <!-- Giriş Ekranı (Splash Screen) - Container Dışında -->
+    <div id="splash-screen" class="screen active">
+            <div class="splash-content">
+                <div class="splash-logo">
+                    <div class="logo-container">
+                        <img src="assets/logo.png" alt="Mind Blocks Logo" class="logo-image">
+                    </div>
+                    <h1 class="splash-title">Mind Blocks</h1>
+                    <p class="splash-subtitle">Hafıza Ustası Ol!</p>
+                </div>
+                
+                <div class="splash-buttons">
+                    <button id="splash-start-btn" class="btn-splash btn-splash-primary">
+                        <span class="btn-splash-icon">▶️</span>
+                        <span class="btn-splash-text">Oyuna Başla</span>
+                    </button>
+                    <button id="tutorial-btn" class="btn-splash btn-splash-secondary">
+                        <span class="btn-splash-icon">📖</span>
+                        <span class="btn-splash-text">Nasıl Oynanır?</span>
+                    </button>
+                </div>
+                
+                <!-- Ayarlar İkonu (Sağ Üst Köşe) -->
+                <button id="settings-icon-btn" class="settings-icon-btn" title="Ayarlar">
+                    ⚙️
+                </button>
+                
+                <div class="splash-footer">
+                    <p>🏆 En İyi Skor: <span id="best-score">0</span></p>
+                </div>
+            </div>
+    </div>
+
+    <!-- Ayarlar Ekranı - Container Dışında -->
+    <div id="settings-screen" class="screen">
+            <div class="settings-content">
+                <div class="settings-header">
+                    <button id="back-to-home-btn" class="btn-back-home" title="Ana Sayfaya Dön">
+                        <span class="back-arrow">←</span>
+                        <span class="back-text">Ana Sayfa</span>
+                    </button>
+                    <h2>⚙️ Ayarlar</h2>
+                    <button id="close-settings-btn" class="btn-close">✕</button>
+                </div>
+                
+                <!-- Ses Ayarları -->
+                <div class="settings-section">
+                    <h3>🔊 Ses Ayarları</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-icon">🎵</span>
+                            <span class="setting-label">Ses Efektleri</span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="sound-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-icon">📳</span>
+                            <span class="setting-label">Titreşim</span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="vibration-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Skin Seçimi -->
+                <div class="settings-section">
+                    <h3>🎨 Tema Seçimi</h3>
+                    <div class="skins-grid">
+                        <div class="skin-card active" data-skin="default">
+                            <div class="skin-preview skin-default">
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                            </div>
+                            <span class="skin-name">Klasik</span>
+                            <span class="skin-check">✓</span>
+                        </div>
+                        <div class="skin-card" data-skin="ocean">
+                            <div class="skin-preview skin-ocean">
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                            </div>
+                            <span class="skin-name">Okyanus</span>
+                            <span class="skin-check">✓</span>
+                        </div>
+                        <div class="skin-card" data-skin="sunset">
+                            <div class="skin-preview skin-sunset">
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                            </div>
+                            <span class="skin-name">Gün Batımı</span>
+                            <span class="skin-check">✓</span>
+                        </div>
+                        <div class="skin-card" data-skin="forest">
+                            <div class="skin-preview skin-forest">
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                            </div>
+                            <span class="skin-name">Orman</span>
+                            <span class="skin-check">✓</span>
+                        </div>
+                        <div class="skin-card" data-skin="neon">
+                            <div class="skin-preview skin-neon">
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                            </div>
+                            <span class="skin-name">Neon</span>
+                            <span class="skin-check">✓</span>
+                        </div>
+                        <div class="skin-card" data-skin="candy">
+                            <div class="skin-preview skin-candy">
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                                <div class="skin-block"></div>
+                            </div>
+                            <span class="skin-name">Şeker</span>
+                            <span class="skin-check">✓</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Görünüm Ayarları -->
+                <div class="settings-section">
+                    <h3>🌓 Görünüm</h3>
+                    <div class="theme-selector">
+                        <button class="theme-btn active" data-theme="light">
+                            <span class="theme-icon">☀️</span>
+                            <span class="theme-name">Aydınlık</span>
+                        </button>
+                        <button class="theme-btn" data-theme="dark">
+                            <span class="theme-icon">🌙</span>
+                            <span class="theme-name">Karanlık</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Diğer Ayarlar -->
+                <div class="settings-section">
+                    <h3>🎮 Oyun Ayarları</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-icon">⚡</span>
+                            <span class="setting-label">Animasyonlar</span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="animations-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button id="save-settings-btn" class="btn-settings-save">
+                    💾 Ayarları Kaydet
+                </button>
+            </div>
+    </div>
+
+    <!-- Öğretici Ekranı - Container Dışında -->
+    <div id="tutorial-screen" class="screen">
+            <div class="tutorial-content">
+                <div class="tutorial-header">
+                    <h2>📖 Nasıl Oynanır?</h2>
+                    <button id="close-tutorial-btn" class="btn-close">✕</button>
+                </div>
+                
+                <div class="tutorial-steps">
+                    <!-- Adım 1 -->
+                    <div class="tutorial-step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>👁️ Hedef Şekli Ezberleyin</h3>
+                            <div class="step-animation">
+                                <div class="demo-grid">
+                                    <div class="demo-cell"></div>
+                                    <div class="demo-cell filled"></div>
+                                    <div class="demo-cell filled"></div>
+                                    <div class="demo-cell"></div>
+                                    <div class="demo-cell filled"></div>
+                                    <div class="demo-cell"></div>
+                                    <div class="demo-cell"></div>
+                                    <div class="demo-cell filled"></div>
+                                    <div class="demo-cell"></div>
+                                </div>
+                                <div class="demo-timer">⏱️ 5</div>
+                            </div>
+                            <p>Ekranda beliren blokların yerlerini ezberleyin. Süre bitince bloklar kaybolacak!</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Adım 2 -->
+                    <div class="tutorial-step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>🖱️ Blokları Sürükleyin</h3>
+                            <div class="step-animation">
+                                <div class="demo-blocks">
+                                    <div class="demo-block">
+                                        <div class="demo-block-cell filled"></div>
+                                        <div class="demo-block-cell filled"></div>
+                                    </div>
+                                    <div class="demo-arrow">➡️</div>
+                                    <div class="demo-grid-small">
+                                        <div class="demo-cell"></div>
+                                        <div class="demo-cell"></div>
+                                        <div class="demo-cell highlight"></div>
+                                        <div class="demo-cell highlight"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Alttaki blokları sürükleyerek grid üzerine yerleştirin. Doğru yere koyun!</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Adım 3 -->
+                    <div class="tutorial-step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>✅ Tamamlayın ve Kazanın</h3>
+                            <div class="step-animation">
+                                <div class="demo-success">
+                                    <div class="success-icon">🎉</div>
+                                    <div class="success-text">+150 Puan</div>
+                                </div>
+                            </div>
+                            <p>Tüm blokları doğru yerlere yerleştirin ve seviyeyi geçin. Her seviye daha zor!</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tutorial-navigation">
+                    <button id="prev-step-btn" class="btn-nav" disabled>◀️ Önceki</button>
+                    <div class="step-indicators">
+                        <span class="step-dot active" data-step="1"></span>
+                        <span class="step-dot" data-step="2"></span>
+                        <span class="step-dot" data-step="3"></span>
+                    </div>
+                    <button id="next-step-btn" class="btn-nav">Sonraki ▶️</button>
+                </div>
+            </div>
+    </div>
+
+    <!-- Motivasyon Mesajı Overlay -->
+    <div id="motivation-overlay" class="motivation-overlay">
+        <div class="motivation-stars" id="motivation-stars"></div>
+        <div class="motivation-content">
+            <div class="motivation-text" id="motivation-text">AMAZING!</div>
+            <div class="motivation-subtext" id="motivation-subtext">Keep going!</div>
+        </div>
+    </div>
+
+    <!-- Ana Oyun Container -->
+    <div class="container">
+        <!-- Başlık ve Skor -->
+        <header>
+            <div class="stats">
+                <div class="stat-item stat-item-large">
+                    <span class="stat-label">SEVİYE</span>
+                    <span class="stat-value" id="level">1</span>
+                </div>
+                <div class="stat-item stat-item-large">
+                    <span class="stat-label">SKOR</span>
+                    <span class="stat-value" id="score">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Ana Oyun Alanı -->
+        <main>
+            <!-- Başlangıç Ekranı -->
+            <div id="start-screen" class="screen">
+                <div class="welcome-box">
+                    <h2>Hoş Geldiniz! 👋</h2>
+                    <p class="game-description">
+                        Blokları sürükleyip doğru yerlere yerleştirin!
+                    </p>
+                    <div class="game-rules">
+                        <h3>🎮 Oyun Kuralları:</h3>
+                        <ul>
+                            <li>👁️ Önce hedef şekli ezberleyin</li>
+                            <li>🖱️ Alttaki blokları sürükleyin</li>
+                            <li>📍 Grid'e doğru şekilde yerleştirin</li>
+                            <li>✨ Tüm blokları yerleştirip seviyeyi geçin</li>
+                            <li>📈 Her seviyede zorluk artar</li>
+                        </ul>
+                    </div>
+                    <button id="start-btn" class="btn btn-primary">
+                        <span class="btn-icon-inline">▶️</span>
+                        Oyuna Başla
+                    </button>
+                </div>
+            </div>
+
+            <!-- Oyun Ekranı -->
+            <div id="game-screen" class="screen">
+                <!-- Timer ve Bilgi -->
+                <div class="game-info">
+                    <div class="info-item">
+                        <span class="info-icon">⏱️</span>
+                        <span class="info-label">Süre:</span>
+                        <span id="timer" class="info-value">0:00</span>
+                    </div>
+                </div>
+
+                <!-- Ana Grid (Ezber fazında hedef gösterilir) -->
+                <div class="grid-section">
+                    <h3 id="grid-title">
+                        <span class="title-icon">🎯</span>
+                        Hedef Şekli Ezberleyin!
+                    </h3>
+                    <div id="memorize-timer" class="memorize-timer" style="display: none;">5</div>
+                    <div id="main-grid" class="grid"></div>
+                </div>
+
+                <!-- Blok Paleti -->
+                <div class="blocks-section">
+                    <h3>
+                        <span class="title-icon custom-block-icon">
+                            <span class="icon-block"></span>
+                            <span class="icon-block"></span>
+                            <span class="icon-block"></span>
+                        </span>
+                        Parçaları Sürükle
+                    </h3>
+                    <div id="blocks-container" class="blocks-container">
+                        <!-- Bloklar buraya dinamik eklenecek -->
+                    </div>
+                </div>
+
+                <!-- Kontrol Butonları -->
+                <div class="game-controls">
+                    <button id="check-btn" class="btn btn-success">
+                        Kontrol Et
+                    </button>
+                    <button id="undo-btn" class="btn btn-warning">
+                        Geri Al
+                    </button>
+                    <button id="skip-timer-btn" class="btn btn-secondary" style="display: none;">
+                        Süreyi Geç
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sonuç Ekranı -->
+            <div id="result-screen" class="screen">
+                <div class="result-overlay">
+                    <!-- Konfeti Animasyonu -->
+                    <div class="confetti-container" id="confetti-container"></div>
+                    
+                    <!-- Başarı Kartı -->
+                    <div class="result-card">
+                        <!-- Üst Kısım - İkon ve Başlık -->
+                        <div class="result-header">
+                            <div class="result-icon-wrapper">
+                                <div id="result-icon" class="result-icon-animated">🎉</div>
+                                <div class="icon-glow"></div>
+                            </div>
+                            <h2 id="result-title" class="result-title-animated">Mükemmel!</h2>
+                            <p id="result-message" class="result-subtitle"></p>
+                        </div>
+                        
+                        <!-- Orta Kısım - İstatistikler -->
+                        <div class="result-stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">🏆</div>
+                                <div class="stat-content">
+                                    <span class="stat-label">Skor</span>
+                                    <span id="final-score" class="stat-value">0</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">⏱️</div>
+                                <div class="stat-content">
+                                    <span class="stat-label">Süre</span>
+                                    <span id="final-time" class="stat-value">0:00</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🎯</div>
+                                <div class="stat-content">
+                                    <span class="stat-label">Hamle</span>
+                                    <span id="final-moves" class="stat-value">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Alt Kısım - Butonlar -->
+                        <div class="result-actions">
+                            <button id="next-level-btn" class="btn-result btn-result-primary">
+                                <span class="btn-icon">🚀</span>
+                                <span class="btn-text">Sonraki Seviye</span>
+                            </button>
+                            <button id="play-again-btn" class="btn-result btn-result-secondary">
+                                <span class="btn-icon">🔄</span>
+                                <span class="btn-text">Tekrar Oyna</span>
+                            </button>
+                            <button id="home-btn" class="btn-result btn-result-home">
+                                <span class="btn-icon">🏠</span>
+                                <span class="btn-text">Ana Sayfa</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="settings.js"></script>
+    <script src="animations.js"></script>
+    <script src="game.js"></script>
+    <script src="game_addon.js"></script>
+    <script src="motivation-sounds.js"></script>
+    <script src="motivation.js"></script>
+</body>
+</html>
