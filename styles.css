@@ -50,13 +50,13 @@ body {
     background: rgba(255, 255, 255, 0.98);
     border-radius: 20px;
     box-shadow: var(--shadow);
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
     animation: fadeIn 0.5s ease-in;
     display: none; /* Başlangıçta gizli, splash screen'den sonra gösterilecek */
     max-height: 100vh;
     touch-action: pan-y;
     -webkit-overflow-scrolling: touch;
+    flex-direction: column;
 }
 
 @keyframes fadeIn {
@@ -75,6 +75,7 @@ header {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     padding: 15px 20px;
     color: white;
+    flex-shrink: 0;
 }
 
 .stats {
@@ -162,9 +163,10 @@ header {
 /* ===== Main Content ===== */
 main {
     padding: 20px;
-    min-height: 400px;
+    flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .screen {
@@ -695,15 +697,30 @@ footer {
     }
 
     .container {
-        max-width: 100%;
+        max-width: 100% !important;
+        width: 100% !important;
         border-radius: 0;
-        max-height: 100vh;
-        height: 100vh;
+        max-height: 100vh !important;
+        height: 100vh !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
         touch-action: pan-y;
+        display: flex !important;
+        flex-direction: column;
     }
 
     header {
         padding: 12px 15px;
+        flex-shrink: 0;
+    }
+
+    main {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 15px;
+        -webkit-overflow-scrolling: touch;
     }
 
     .stats {

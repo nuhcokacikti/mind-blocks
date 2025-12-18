@@ -57,12 +57,22 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch(e) {}
             
             splashScreen.classList.remove('active');
-            
-            // Container'ı göster
+
+            // Container'ı göster ve scroll'u düzelt
             const container = document.querySelector('.container');
             if (container) {
-                container.style.display = 'block';
+                container.style.display = 'flex';
+                container.style.position = 'fixed';
+                container.style.top = '0';
+                container.style.left = '0';
+                container.style.width = '100%';
+                container.style.height = '100%';
+                container.style.flexDirection = 'column';
             }
+
+            // Body'nin scroll'unu tamamen kapat
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
             
             // Tüm ekranları gizle
             document.querySelectorAll('.screen').forEach(screen => {
