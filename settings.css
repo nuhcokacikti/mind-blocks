@@ -40,24 +40,19 @@
 /* ===== Ayarlar Ekranı ===== */
 #settings-screen {
     min-height: 100vh;
-    max-height: 100vh;
     width: 100vw;
     position: fixed;
     top: 0;
     left: 0;
     background: linear-gradient(135deg, #667eea, #764ba2);
     overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
     z-index: 9999;
-    touch-action: pan-y;
 }
 
 .settings-content {
     max-width: 700px;
     margin: 0 auto;
-    padding: 20px 20px 40px 20px;
-    min-height: 100vh;
+    padding: 20px;
 }
 
 .settings-header {

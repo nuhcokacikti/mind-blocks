@@ -9,7 +9,6 @@
 #splash-screen {
     background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
     min-height: 100vh;
-    max-height: 100vh;
     width: 100vw;
     display: flex;
     align-items: center;
@@ -20,7 +19,6 @@
     overflow: hidden;
     z-index: 9999;
     transition: opacity 0.3s ease-out;
-    touch-action: none;
 }
 
 #splash-screen:not(.active) {
@@ -290,24 +288,19 @@
 /* ===== Öğretici Ekranı ===== */
 #tutorial-screen {
     min-height: 100vh;
-    max-height: 100vh;
     width: 100vw;
     position: fixed;
     top: 0;
     left: 0;
     background: linear-gradient(135deg, #667eea, #764ba2);
     overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
     z-index: 9999;
-    touch-action: pan-y;
 }
 
 .tutorial-content {
     max-width: 600px;
     margin: 0 auto;
-    padding: 20px 20px 40px 20px;
-    min-height: 100vh;
+    padding: 20px;
 }
 
 .tutorial-header {
@@ -674,32 +667,12 @@
 
 /* ===== Responsive - Giriş ve Öğretici ===== */
 @media (max-width: 600px) {
-    #splash-screen,
-    #tutorial-screen,
-    #settings-screen {
-        height: 100vh;
-        max-height: 100vh;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-    .splash-content,
-    .tutorial-content,
-    .settings-content {
-        padding: 20px 15px 40px 15px;
-    }
-
     .splash-title {
         font-size: 2rem;
     }
 
     .logo-icon {
         font-size: 4rem;
-    }
-
-    .logo-image {
-        width: 200px;
-        height: 200px;
     }
 
     .btn-splash {

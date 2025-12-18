@@ -520,7 +520,6 @@ function createBlockElement(block) {
 }
 
 let draggedBlock = null, touchBlock = null;
-let ghostElement = null; // Sürükleme sırasında görünen hayalet element
 
 function handleDragStart(e) {
     // Ezber fazında sürüklemeyi engelle
@@ -528,7 +527,7 @@ function handleDragStart(e) {
         e.preventDefault();
         return;
     }
-
+    
     const blockElement = e.target.closest('.block');
     if (!blockElement) return;
     draggedBlock = gameState.blocks.find(b => b.id == blockElement.dataset.blockId);
@@ -538,17 +537,6 @@ function handleDragStart(e) {
     }
     blockElement.classList.add('dragging');
     e.dataTransfer.effectAllowed = 'move';
-
-    // Ghost element oluştur (sürükleme sırasında görünen saydam kopya)
-    const ghost = blockElement.cloneNode(true);
-    ghost.style.position = 'absolute';
-    ghost.style.opacity = '0.6';
-    ghost.style.pointerEvents = 'none';
-    ghost.style.zIndex = '10000';
-    ghost.style.left = '-9999px';
-    document.body.appendChild(ghost);
-    e.dataTransfer.setDragImage(ghost, ghost.offsetWidth / 2, ghost.offsetHeight / 2);
-    setTimeout(() => ghost.remove(), 0);
 }
 
 function handleDragEnd(e) {
@@ -625,106 +613,29 @@ function handleTouchStart(e) {
         e.preventDefault();
         return;
     }
-
-    const blockElement = e.target.closest('.block');
-    if (!blockElement) return;
-
-    touchBlock = gameState.blocks.find(b => b.id == blockElement.dataset.blockId);
-    if (!touchBlock || gameState.usedBlocks.includes(touchBlock.id)) {
-        touchBlock = null;
-        return;
-    }
-
-    blockElement.classList.add('dragging');
-
-    // Ghost element oluştur (mobil için saydam kopya)
-    if (ghostElement) ghostElement.remove();
-    ghostElement = blockElement.cloneNode(true);
-    ghostElement.style.position = 'fixed';
-    ghostElement.style.opacity = '0.7';
-    ghostElement.style.pointerEvents = 'none';
-    ghostElement.style.zIndex = '10000';
-    ghostElement.style.transition = 'none';
-    ghostElement.classList.remove('dragging');
-    ghostElement.classList.add('ghost-block');
-    document.body.appendChild(ghostElement);
-
-    // İlk pozisyonu ayarla
-    const touch = e.touches[0];
-    const rect = blockElement.getBoundingClientRect();
-    ghostElement.style.left = (touch.clientX - rect.width / 2) + 'px';
-    ghostElement.style.top = (touch.clientY - rect.height / 2) + 'px';
+    
+    touchBlock = gameState.blocks.find(b => b.id == e.target.closest('.block').dataset.blockId);
+    e.target.closest('.block').classList.add('dragging');
 }
 
-function handleTouchMove(e) {
-    e.preventDefault();
-    if (!touchBlock || !ghostElement) return;
-
-    const touch = e.touches[0];
-    const rect = ghostElement.getBoundingClientRect();
-
-    // Ghost elementi hareket ettir
-    ghostElement.style.left = (touch.clientX - rect.width / 2) + 'px';
-    ghostElement.style.top = (touch.clientY - rect.height / 2) + 'px';
-
-    // Grid üzerindeki hücreyi bul ve önizleme göster
-    const cell = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.grid-cell');
-    if (cell) {
-        const row = parseInt(cell.dataset.row);
-        const col = parseInt(cell.dataset.col);
-        showPlacementPreview(row, col, touchBlock.shape);
-    } else {
-        clearPlacementPreview();
-    }
-}
+function handleTouchMove(e) { e.preventDefault(); }
 
 function handleTouchEnd(e) {
-    const blockElement = e.target.closest('.block');
-    if (blockElement) {
-        blockElement.classList.remove('dragging');
-    }
-
-    // Ghost elementi kaldır
-    if (ghostElement) {
-        ghostElement.remove();
-        ghostElement = null;
-    }
-
-    clearPlacementPreview();
-
-    if (!touchBlock || gameState.usedBlocks.includes(touchBlock.id)) {
-        touchBlock = null;
-        return;
-    }
-
+    e.target.closest('.block').classList.remove('dragging');
+    if (!touchBlock || gameState.usedBlocks.includes(touchBlock.id)) return;
     const touch = e.changedTouches[0];
     const cell = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.grid-cell');
-
     if (cell) {
-        const row = parseInt(cell.dataset.row);
-        const col = parseInt(cell.dataset.col);
-
+        const row = parseInt(cell.dataset.row), col = parseInt(cell.dataset.col);
         if (canPlaceShape(gameState.currentPattern, touchBlock.shape, row, col)) {
-            gameState.moveHistory.push({
-                blockId: touchBlock.id,
-                pattern: JSON.parse(JSON.stringify(gameState.currentPattern))
-            });
             placeShape(gameState.currentPattern, touchBlock.shape, row, col, touchBlock.id + 1);
             gameState.usedBlocks.push(touchBlock.id);
             gameState.moves++;
-            if (sounds.place) sounds.place();
-            Vibrate.short(); // Titreşim ekle
             updateDisplay();
             displayPattern(elements.mainGrid, gameState.currentPattern);
             renderBlocks();
-            elements.undoBtn.disabled = false;
-        } else {
-            // Geçersiz yerleştirme - hata sesi ve titreşim
-            SoundEffects.error();
-            Vibrate.medium();
         }
     }
-
     touchBlock = null;
 }
 

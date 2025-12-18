@@ -6,32 +6,8 @@ const tutorialState = {
     totalSteps: 3
 };
 
-// ===== Mobil Scroll Engelleme =====
-// Body scroll'unu tamamen engelle (mobil için)
-function preventBodyScroll() {
-    document.body.style.position = 'fixed';
-    document.body.style.top = '0';
-    document.body.style.left = '0';
-    document.body.style.width = '100%';
-    document.body.style.height = '100%';
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-
-    // Touchmove eventini engelle (body üzerinde)
-    document.body.addEventListener('touchmove', function(e) {
-        // Eğer scroll edilebilir bir element değilse engelle
-        const target = e.target;
-        const scrollableParent = target.closest('.container, #settings-screen, #tutorial-screen, main');
-        if (!scrollableParent) {
-            e.preventDefault();
-        }
-    }, { passive: false });
-}
-
 // Sayfa yüklendiğinde
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobil scroll'u engelle
-    preventBodyScroll();
     // Giriş ekranı elementleri
     const splashScreen = document.getElementById('splash-screen');
     const tutorialScreen = document.getElementById('tutorial-screen');
