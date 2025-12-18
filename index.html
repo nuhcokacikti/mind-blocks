@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="styles_addon.css">
     <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="features.css">
 </head>
 <body>
     <!-- Giriş Ekranı (Splash Screen) - Container Dışında -->
@@ -186,7 +187,15 @@
                         </label>
                     </div>
                 </div>
-                
+
+                <!-- Başarımlar -->
+                <div class="settings-section">
+                    <h3>🏆 Başarımlar</h3>
+                    <div class="achievements-grid" id="achievements-grid">
+                        <!-- Başarımlar buraya dinamik eklenecek -->
+                    </div>
+                </div>
+
                 <button id="save-settings-btn" class="btn-settings-save">
                     💾 Ayarları Kaydet
                 </button>
@@ -286,6 +295,9 @@
         </div>
     </div>
 
+    <!-- Combo Display -->
+    <div id="combo-display" class="combo-display"></div>
+
     <!-- Ana Oyun Container -->
     <div class="container">
         <!-- Başlık ve Skor -->
@@ -337,6 +349,25 @@
                         <span class="info-label">Süre:</span>
                         <span id="timer" class="info-value">0:00</span>
                     </div>
+                </div>
+
+                <!-- Power-Up Butonları -->
+                <div class="power-up-container">
+                    <button id="hint-btn" class="power-up-btn">
+                        <span>💡</span>
+                        <span>İpucu</span>
+                        <div class="power-up-count" id="hint-count">3</div>
+                    </button>
+                    <button id="extra-time-btn" class="power-up-btn">
+                        <span>⏱️</span>
+                        <span>+5 Saniye</span>
+                        <div class="power-up-count" id="extra-time-count">2</div>
+                    </button>
+                    <button id="shuffle-btn" class="power-up-btn">
+                        <span>🔄</span>
+                        <span>Karıştır</span>
+                        <div class="power-up-count" id="shuffle-count">2</div>
+                    </button>
                 </div>
 
                 <!-- Ana Grid (Ezber fazında hedef gösterilir) -->
@@ -394,6 +425,13 @@
                             </div>
                             <h2 id="result-title" class="result-title-animated">Mükemmel!</h2>
                             <p id="result-message" class="result-subtitle"></p>
+
+                            <!-- Yıldız Göstergesi -->
+                            <div class="stars-display" id="result-stars">
+                                <span class="star">⭐</span>
+                                <span class="star">⭐</span>
+                                <span class="star">⭐</span>
+                            </div>
                         </div>
                         
                         <!-- Orta Kısım - İstatistikler -->
@@ -445,8 +483,10 @@
 
     <script src="settings.js"></script>
     <script src="animations.js"></script>
+    <script src="features.js"></script>
     <script src="game.js"></script>
     <script src="game_addon.js"></script>
+    <script src="features-integration.js"></script>
     <script src="motivation-sounds.js"></script>
     <script src="motivation.js"></script>
 </body>
