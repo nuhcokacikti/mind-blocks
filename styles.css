@@ -21,6 +21,8 @@ html {
     overflow: hidden;
     position: fixed;
     width: 100%;
+    top: 0;
+    left: 0;
 }
 
 body {
@@ -37,6 +39,9 @@ body {
     overflow: hidden;
     position: fixed;
     margin: 0;
+    top: 0;
+    left: 0;
+    touch-action: none;
 }
 
 .container {
@@ -50,6 +55,8 @@ body {
     animation: fadeIn 0.5s ease-in;
     display: none; /* Başlangıçta gizli, splash screen'den sonra gösterilecek */
     max-height: 100vh;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
 }
 
 @keyframes fadeIn {
@@ -669,16 +676,22 @@ footer {
 /* ===== Responsive ===== */
 @media (max-width: 600px) {
     html, body {
-        position: fixed;
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-        touch-action: pan-y;
+        position: fixed !important;
+        overflow: hidden !important;
+        width: 100% !important;
+        height: 100% !important;
+        touch-action: none !important;
+        top: 0 !important;
+        left: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     body {
         padding: 0;
         align-items: stretch;
+        overscroll-behavior: none;
+        -webkit-overflow-scrolling: auto;
     }
 
     .container {
@@ -686,6 +699,7 @@ footer {
         border-radius: 0;
         max-height: 100vh;
         height: 100vh;
+        touch-action: pan-y;
     }
 
     header {

@@ -50,6 +50,7 @@
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     z-index: 9999;
+    touch-action: pan-y;
 }
 
 .settings-content {
