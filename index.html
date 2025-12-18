@@ -43,6 +43,10 @@
                         <span class="btn-splash-icon">▶️</span>
                         <span class="btn-splash-text">Oyuna Başla</span>
                     </button>
+                    <button id="achievements-btn" class="btn-splash btn-splash-secondary">
+                        <span class="btn-splash-icon">🏆</span>
+                        <span class="btn-splash-text">Başarımlar</span>
+                    </button>
                     <button id="tutorial-btn" class="btn-splash btn-splash-secondary">
                         <span class="btn-splash-icon">📖</span>
                         <span class="btn-splash-text">Nasıl Oynanır?</span>
@@ -188,18 +192,41 @@
                     </div>
                 </div>
 
-                <!-- Başarımlar -->
-                <div class="settings-section">
-                    <h3>🏆 Başarımlar</h3>
-                    <div class="achievements-grid" id="achievements-grid">
-                        <!-- Başarımlar buraya dinamik eklenecek -->
-                    </div>
-                </div>
-
                 <button id="save-settings-btn" class="btn-settings-save">
                     💾 Ayarları Kaydet
                 </button>
             </div>
+    </div>
+
+    <!-- Başarımlar Ekranı - Container Dışında -->
+    <div id="achievements-screen" class="screen">
+        <div class="achievements-content">
+            <div class="achievements-header">
+                <h2>🏆 Başarımlar</h2>
+                <button id="close-achievements-btn" class="btn-close">✕</button>
+            </div>
+
+            <div class="achievements-stats">
+                <div class="achievement-stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Toplam Yıldız</span>
+                        <span class="stat-value" id="total-stars">0</span>
+                    </div>
+                </div>
+                <div class="achievement-stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Açılan Başarım</span>
+                        <span class="stat-value" id="unlocked-achievements">0/8</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- Başarımlar buraya dinamik eklenecek -->
+            </div>
+        </div>
     </div>
 
     <!-- Öğretici Ekranı - Container Dışında -->
@@ -342,34 +369,6 @@
 
             <!-- Oyun Ekranı -->
             <div id="game-screen" class="screen">
-                <!-- Timer ve Bilgi -->
-                <div class="game-info">
-                    <div class="info-item">
-                        <span class="info-icon">⏱️</span>
-                        <span class="info-label">Süre:</span>
-                        <span id="timer" class="info-value">0:00</span>
-                    </div>
-                </div>
-
-                <!-- Power-Up Butonları -->
-                <div class="power-up-container">
-                    <button id="hint-btn" class="power-up-btn">
-                        <span>💡</span>
-                        <span>İpucu</span>
-                        <div class="power-up-count" id="hint-count">3</div>
-                    </button>
-                    <button id="extra-time-btn" class="power-up-btn">
-                        <span>⏱️</span>
-                        <span>+5 Saniye</span>
-                        <div class="power-up-count" id="extra-time-count">2</div>
-                    </button>
-                    <button id="shuffle-btn" class="power-up-btn">
-                        <span>🔄</span>
-                        <span>Karıştır</span>
-                        <div class="power-up-count" id="shuffle-count">2</div>
-                    </button>
-                </div>
-
                 <!-- Ana Grid (Ezber fazında hedef gösterilir) -->
                 <div class="grid-section">
                     <h3 id="grid-title">

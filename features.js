@@ -159,6 +159,16 @@ const PowerUpSystem = {
         return false;
     },
 
+    // Power-up kullan (alternatif isim)
+    usePowerUp(type) {
+        return this.use(type);
+    },
+
+    // Power-up kaydet (alternatif isim)
+    savePowerUps() {
+        this.save();
+    },
+
     // Power-up ekle
     add(type, amount = 1) {
         if (this.powerUps[type]) {
@@ -264,64 +274,56 @@ const AchievementSystem = {
             name: 'İlk Zafer',
             description: 'İlk seviyeni tamamla',
             icon: '🏆',
-            unlocked: false,
-            reward: { hint: 1 }
+            unlocked: false
         },
         level10: {
             id: 'level10',
             name: 'Acemi Usta',
             description: '10. seviyeye ulaş',
             icon: '⭐',
-            unlocked: false,
-            reward: { extraTime: 1, hint: 2 }
+            unlocked: false
         },
         level25: {
             id: 'level25',
             name: 'Profesyonel',
             description: '25. seviyeye ulaş',
             icon: '💎',
-            unlocked: false,
-            reward: { shuffle: 1, hint: 3 }
+            unlocked: false
         },
         perfectGame: {
             id: 'perfectGame',
             name: 'Kusursuz',
             description: 'Bir seviyeyi 3 yıldızla bitir',
             icon: '✨',
-            unlocked: false,
-            reward: { hint: 2, extraTime: 1 }
+            unlocked: false
         },
         comboMaster: {
             id: 'comboMaster',
             name: 'Combo Ustası',
             description: '10x combo yap',
             icon: '🔥',
-            unlocked: false,
-            reward: { shuffle: 2 }
+            unlocked: false
         },
         speedRunner: {
             id: 'speedRunner',
             name: 'Hız Canavarı',
             description: 'Bir seviyeyi 15 saniyede bitir',
             icon: '⚡',
-            unlocked: false,
-            reward: { extraTime: 2, shuffle: 1 }
+            unlocked: false
         },
         score10k: {
             id: 'score10k',
             name: 'Puan Avcısı',
             description: '10.000 puan topla',
             icon: '💰',
-            unlocked: false,
-            reward: { hint: 3, shuffle: 1 }
+            unlocked: false
         },
         starCollector: {
             id: 'starCollector',
             name: 'Yıldız Toplayıcı',
             description: '50 yıldız topla',
             icon: '🌟',
-            unlocked: false,
-            reward: { hint: 5, extraTime: 2, shuffle: 2 }
+            unlocked: false
         }
     },
 
@@ -354,7 +356,6 @@ const AchievementSystem = {
             achievement.unlocked = true;
             this.save();
             this.showUnlockNotification(achievement);
-            this.giveReward(achievement.reward);
             return true;
         }
         return false;
@@ -391,15 +392,6 @@ const AchievementSystem = {
         }, 4000);
     },
 
-    // Ödül ver
-    giveReward(reward) {
-        if (reward && typeof PowerUpSystem !== 'undefined') {
-            Object.keys(reward).forEach(key => {
-                PowerUpSystem.add(key, reward[key]);
-            });
-        }
-    },
-
     // Kontroller
     checkAchievements() {
         if (typeof gameState === 'undefined') return;
@@ -434,6 +426,49 @@ const AchievementSystem = {
 
     getTotalCount() {
         return Object.keys(this.achievements).length;
+    },
+
+    // Init fonksiyonu
+    init() {
+        this.load();
+        console.log('🏆 Başarım sistemi başlatıldı');
+    },
+
+    // Başarım kilidi aç (alternatif isim)
+    unlockAchievement(achievementId) {
+        return this.unlock(achievementId);
+    },
+
+    // Seviye tamamlama kontrolü
+    checkLevelComplete(level) {
+        if (level >= 1) this.unlock('firstWin');
+        if (level >= 10) this.unlock('level10');
+        if (level >= 25) this.unlock('level25');
+    },
+
+    // Skor kontrolü
+    checkScore(score) {
+        if (score >= 10000) this.unlock('score10k');
+    },
+
+    // Mükemmel oyun kontrolü
+    checkPerfectGame() {
+        this.unlock('perfectGame');
+    },
+
+    // Combo kontrolü
+    checkCombo(combo) {
+        if (combo >= 10) this.unlock('comboMaster');
+    },
+
+    // Hız kontrolü
+    checkSpeedRun() {
+        this.unlock('speedRunner');
+    },
+
+    // Yıldız toplayıcı kontrolü
+    checkStarCollector() {
+        this.unlock('starCollector');
     }
 };
 
@@ -515,6 +550,44 @@ const DailyRewardSystem = {
         if (reward.extraTime) parts.push(`${reward.extraTime}x ⏱️ Ekstra Süre`);
         if (reward.shuffle) parts.push(`${reward.shuffle}x 🔄 Karıştır`);
         return parts.join(', ');
+    },
+
+    // Günlük ödül modalını göster
+    showDailyRewardModal() {
+        if (!this.canClaimToday()) return;
+
+        const streak = this.getStreak() + 1;
+        const reward = this.getRewardForDay(streak);
+
+        // Modal oluştur
+        const modal = document.createElement('div');
+        modal.className = 'daily-reward-modal';
+        modal.innerHTML = `
+            <div class="daily-reward-content">
+                <div class="daily-reward-icon">🎁</div>
+                <h2 class="daily-reward-title">Günlük Hediye!</h2>
+                <p class="daily-reward-streak">🔥 ${streak} Gün Üst Üste!</p>
+                <div class="daily-reward-items">
+                    ${this.formatReward(reward).split(', ').map(r => `<div class="reward-item">${r}</div>`).join('')}
+                </div>
+                <button class="daily-reward-btn" id="claim-reward-btn">Ödülü Al!</button>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Butona tıklanınca
+        const claimBtn = modal.querySelector('#claim-reward-btn');
+        claimBtn.addEventListener('click', () => {
+            const result = this.claimDaily();
+            if (result.success) {
+                modal.remove();
+                // Power-up sayılarını güncelle
+                if (typeof updatePowerUpCounts === 'function') {
+                    updatePowerUpCounts();
+                }
+            }
+        });
     }
 };
 
