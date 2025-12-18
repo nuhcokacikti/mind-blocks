@@ -16,15 +16,32 @@
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
+html {
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     min-height: 100vh;
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
     color: #1e293b;
+    overflow: hidden;
+    position: fixed;
+    margin: 0;
+    top: 0;
+    left: 0;
+    touch-action: none;
 }
 
 .container {
@@ -33,9 +50,13 @@ body {
     background: rgba(255, 255, 255, 0.98);
     border-radius: 20px;
     box-shadow: var(--shadow);
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     animation: fadeIn 0.5s ease-in;
     display: none; /* Başlangıçta gizli, splash screen'den sonra gösterilecek */
+    max-height: 100vh;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
 }
 
 @keyframes fadeIn {
@@ -142,6 +163,8 @@ header {
 main {
     padding: 20px;
     min-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .screen {
@@ -499,6 +522,17 @@ main {
     pointer-events: none;
 }
 
+/* Ghost Block - Sürükleme sırasında görünen saydam kopya */
+.ghost-block {
+    position: fixed !important;
+    opacity: 0.7 !important;
+    pointer-events: none !important;
+    z-index: 10000 !important;
+    transform: scale(1.1);
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+    animation: none !important;
+}
+
 .block-grid {
     display: grid;
     gap: 2px;
@@ -641,6 +675,33 @@ footer {
 
 /* ===== Responsive ===== */
 @media (max-width: 600px) {
+    html, body {
+        position: fixed !important;
+        overflow: hidden !important;
+        width: 100% !important;
+        height: 100% !important;
+        touch-action: none !important;
+        top: 0 !important;
+        left: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body {
+        padding: 0;
+        align-items: stretch;
+        overscroll-behavior: none;
+        -webkit-overflow-scrolling: auto;
+    }
+
+    .container {
+        max-width: 100%;
+        border-radius: 0;
+        max-height: 100vh;
+        height: 100vh;
+        touch-action: pan-y;
+    }
+
     header {
         padding: 12px 15px;
     }

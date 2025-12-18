@@ -93,34 +93,41 @@ function loadSettings() {
         GameSettings.animations = settings.animations !== undefined ? settings.animations : true;
         GameSettings.skin = settings.skin || 'default';
         GameSettings.theme = settings.theme || 'light';
-        
-        // UI'yi güncelle
-        document.getElementById('sound-toggle').checked = GameSettings.sound;
-        document.getElementById('vibration-toggle').checked = GameSettings.vibration;
-        document.getElementById('animations-toggle').checked = GameSettings.animations;
-        
-        // Skin'i uygula
-        applySkin(GameSettings.skin);
-        
-        // Temayı uygula
-        applyTheme(GameSettings.theme);
-        
-        // Aktif skin kartını işaretle
-        document.querySelectorAll('.skin-card').forEach(card => {
-            card.classList.remove('active');
-            if (card.dataset.skin === GameSettings.skin) {
-                card.classList.add('active');
-            }
-        });
-        
-        // Aktif tema butonunu işaretle
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.dataset.theme === GameSettings.theme) {
-                btn.classList.add('active');
-            }
-        });
     }
+    // else - Hiç kayıtlı ayar yoksa GameSettings'teki varsayılan değerler kullanılacak (hepsi true)
+
+    // UI'yi güncelle (her zaman çalışmalı)
+    const soundToggle = document.getElementById('sound-toggle');
+    const vibrationToggle = document.getElementById('vibration-toggle');
+    const animationsToggle = document.getElementById('animations-toggle');
+
+    if (soundToggle) soundToggle.checked = GameSettings.sound;
+    if (vibrationToggle) vibrationToggle.checked = GameSettings.vibration;
+    if (animationsToggle) animationsToggle.checked = GameSettings.animations;
+
+    // Skin'i uygula
+    applySkin(GameSettings.skin);
+
+    // Temayı uygula
+    applyTheme(GameSettings.theme);
+
+    // Aktif skin kartını işaretle
+    document.querySelectorAll('.skin-card').forEach(card => {
+        card.classList.remove('active');
+        if (card.dataset.skin === GameSettings.skin) {
+            card.classList.add('active');
+        }
+    });
+
+    // Aktif tema butonunu işaretle
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.theme === GameSettings.theme) {
+            btn.classList.add('active');
+        }
+    });
+
+    console.log('🔊 Ses ayarları yüklendi:', GameSettings);
 }
 
 // ===== Ayarları Kaydet =====

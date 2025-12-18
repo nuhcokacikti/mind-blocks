@@ -2,8 +2,25 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, minimal-ui">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Mind Blocks - Hafıza ve Zeka Oyunu</title>
+    <style>
+        /* Scroll engelleme - inline style */
+        html, body {
+            position: fixed;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            touch-action: none;
+            overscroll-behavior: none;
+            -webkit-overflow-scrolling: auto;
+        }
+    </style>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="styles_addon.css">
     <link rel="stylesheet" href="settings.css">
@@ -14,7 +31,7 @@
             <div class="splash-content">
                 <div class="splash-logo">
                     <div class="logo-container">
-                        <img src="assets/logo.png" alt="Mind Blocks Logo" class="logo-image">
+                        <img src="logo.png" alt="Mind Blocks Logo" class="logo-image">
                     </div>
                     <h1 class="splash-title">Mind Blocks</h1>
                     <p class="splash-subtitle">Hafıza Ustası Ol!</p>
